@@ -2,13 +2,18 @@ import styled from "@emotion/styled";
 import { FC, PropsWithChildren, ReactNode } from "react";
 
 const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(39.5rem, 1fr));
+
+  column-gap: 1rem;
   row-gap: 2rem;
-  column-gap: 2rem;
-  margin-top: 5%;
+  justify-items: center;
+  width: 98%;
+  margin: 0 auto;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(auto-fit, minmax(38rem, 1fr));
+  }
 `;
 
 type Props = {};

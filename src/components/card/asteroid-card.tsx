@@ -8,7 +8,7 @@ import Check from "../check/check";
 
 const Container = styled.div`
   position: relative;
-  width: 40rem;
+  width: 37.5rem;
   cursor: pointer;
 
   -webkit-transform-style: preserve-3d;
