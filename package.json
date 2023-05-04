@@ -9,6 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@bcad1591/react-date-picker": "^0.1.1",
+    "@emotion/css": "^11.10.8",
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@heroicons/react": "v1",
     "@types/node": "18.16.3",
     "@types/react": "18.2.1",
     "@types/react-dom": "18.2.2",
