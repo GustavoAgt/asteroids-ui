@@ -1,2 +1,8 @@
 .main {
+  position: relative;
+  overflow-x: none;
+}
+
+.dates {
+  font-size: 1.8rem;
 }

@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import React, { ReactNode, useState } from "react";
+
+//@ts-ignore
 import { MapIcon } from "@heroicons/react/outline";
 
 import { PRIMARY_COLOR, SUBTLE_TEXT_COLOR } from "@ast/constants/colors";

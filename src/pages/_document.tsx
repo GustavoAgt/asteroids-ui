@@ -7,6 +7,7 @@ export default function Document() {
       <body>
         <Main />
         <div id="portal-modal" />
+        <div id="overlay" />
         <NextScript />
       </body>
     </Html>

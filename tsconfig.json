@@ -14,12 +14,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    // "noImplicitAny": false,
     "paths": {
       "@ast/*": ["./src/*"],
       "@ast/component": ["./src/components"],
       "@ast/pages": ["./src/pages"],
-      "@ast/styles": ["./src/styles"]
+      "@ast/styles": ["./src/styles"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
