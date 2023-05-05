@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import { Roboto } from "next/font/google";
 
+import useSWR from "swr";
+import { useDispatch } from "react-redux";
 import CardSection from "@ast/components/card-section/card-section";
 import Card from "@ast/components/card/asteroid-card";
 import Header from "@ast/components/header/header";
@@ -15,42 +17,36 @@ import Modal from "@ast/components/modal/modal";
 import FilterCard from "@ast/components/card-filter/card-filter";
 import Overlay from "@ast/components/overlay/overlay";
 import DatePick from "@ast/components/date-picker/datePicker";
-import { PrimaryButton } from "@ast/components/buttons/buttons";
+import {
+  PrimaryButton,
+  SecondaryButton,
+  SimpleButton,
+} from "@ast/components/buttons/buttons";
 import useKeyPress from "@ast/hooks/keyPress";
-import { GetStaticProps } from "next";
-import { GraphQLClient, gql } from "graphql-request";
-import { NeoResult } from "@ast/request/type/asteroids";
+import { generateRamdomNum, sortArrObj } from "@ast/utils/utils";
+import SortSection from "@ast/components/sort-section/sort-section";
+import { GET_NEOS } from "@ast/GraphQL/gql/neo.queries";
+import { fetcher } from "@ast/GraphQL/graphQLClient";
+import { setAsteroids } from "@ast/redux/slices/asteroids.slice";
+import { Neo, NeoResult } from "@ast/request/type/asteroids";
+import { useAppSelector } from "@ast/hooks/selector";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "500"] });
 
-export const getStaticProps: GetStaticProps = async () => {
-  const endPoint = process.env.END_POINT as string;
-
-  const graphlQLClient = new GraphQLClient(endPoint);
-
-  const query = gql`
-    {
-      asteroids {
-        id
-        name
-        name_limited
-        absolute_magnitude_h
-        designation
-        is_potentially_hazardous_asteroid
-      }
-    }
-  `;
-
-  const data = await graphlQLClient.request(query);
-
-  return {
-    props: { data },
-  };
-};
-
-export default function Home({data}: {data: NeoResult}) {
+export default function Home() {
   const [showFilters, setShowFilters] = useToggle();
   const ref = useRef<HTMLDivElement | null>(null);
+  const dispatch = useDispatch();
+  const { data, error } = useSWR(GET_NEOS, fetcher);
+  const { asteroids } = useAppSelector((state) => state.neo);
+
+  const selectDataSource = () => {
+    if (asteroids.length > 0) {
+      return asteroids;
+    }
+
+    return data?.asteroids;
+  };
 
   useKeyPress("Escape", () => {
     showFilters && setShowFilters();
@@ -59,6 +55,13 @@ export default function Home({data}: {data: NeoResult}) {
   const handleScrollToComponent = () => {
     if (ref) {
       ref.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const sortBy = (attrb: keyof Neo) => {
+    const result = sortArrObj(data?.asteroids, attrb);
+    if (result) {
+      dispatch(setAsteroids({ asteroids: result }));
     }
   };
 
@@ -114,6 +117,8 @@ export default function Home({data}: {data: NeoResult}) {
 
                   <DatePick className={`${HomeStyle.dates}`} />
                 </FilterCard.DateContainer>
+
+                <SecondaryButton value="Search" onClick={() => {}} />
               </FilterCard>
             }
           </Modal>
@@ -133,17 +138,29 @@ export default function Home({data}: {data: NeoResult}) {
                 handleScrollToComponent();
               }}
             />
+
+            <SortSection>
+              <span
+                className={roboto.className}
+                style={{ fontSize: "2.2rem", fontWeight: 300 }}
+              >
+                SORT BY:
+              </span>
+              <SimpleButton onClick={() => sortBy("name_limited")}>
+                {"Name"}
+              </SimpleButton>
+            </SortSection>
           </ButtonContainer>
 
           <CardSection>
-            {data.asteroids?.map((neo) => (
+            {selectDataSource()?.map((neo) => (
               <Card
                 key={neo.id}
                 check={false}
                 image={
                   <Card.ImageContainer>
                     <Image
-                      src="/images/ex1.jpeg"
+                      src={`/images/ast/${neo?.pic}.png`}
                       alt={neo.name_limited}
                       fill
                       style={{ objectFit: "cover", borderRadius: "1rem" }}
@@ -155,10 +172,11 @@ export default function Home({data}: {data: NeoResult}) {
                     <Card.InfoTitle>{neo.name}</Card.InfoTitle>
 
                     <Card.InfoEventContainer>
-                      <Card.InfoLocation>
-                        {neo.is_potentially_hazardous_asteroid}
-                      </Card.InfoLocation>
-                      <Card.InfoLocation>{neo.designation}</Card.InfoLocation>
+                      <Card.InfoSub>
+                        desig: {neo.designation} - magnitud:{" "}
+                        {neo.absolute_magnitude_h} - D:{" "}
+                        {neo.is_potentially_hazardous_asteroid ? "YES" : "NO"}
+                      </Card.InfoSub>
                     </Card.InfoEventContainer>
                   </Card.Info>
                 }

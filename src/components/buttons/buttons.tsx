@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { FC, PropsWithChildren, ReactNode } from "react";
 import styled from "@emotion/styled";
 
 type Props = {
@@ -109,7 +109,6 @@ const SecondaryButton = styled(Button)<Props>`
 `;
 
 type ButtonSimpleProp = {
-  children: ReactNode;
   position?: {
     absolute: boolean;
     top: string;
@@ -122,12 +121,12 @@ type ButtonSimpleProp = {
   color?: string;
   icon?: unknown;
   className?: string;
-  onSignIn: () => void;
+  onClick?: () => void;
 };
 
 const SimpleButton = styled(
-  ({ children, className, onSignIn }: ButtonSimpleProp) => (
-    <button className={className} onClick={onSignIn}>
+  ({ children, className, onClick }: PropsWithChildren<ButtonSimpleProp>) => (
+    <button className={className} onClick={onClick}>
       {children}
     </button>
   )
@@ -149,7 +148,6 @@ const SimpleButton = styled(
   text-transform: uppercase;
   padding: 2rem 3rem;
   border-radius: 1rem;
-  width: 100%;
   background-color: rgba(234, 217, 193, 0.5);
   transition: background-color ease-in-out 0.5s;
 

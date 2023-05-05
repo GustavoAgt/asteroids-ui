@@ -3,14 +3,14 @@ import { LegacyRef, ReactNode } from "react";
 
 const Container = styled.div`
   position: absolute;
-  top: 100%;
+  top: 110%;
   left: 50%;
   z-index: 2;
   transform: translate(-50%, 10%);
   box-shadow: 1px 2px 6px 1px rgba(0, 0, 0, 0.2);
   background-color: #fff;
   padding: 2.5rem 2.5rem;
-  height: 70rem;
+  height: 50rem;
   width: 55rem;
   border-radius: 1rem;
 

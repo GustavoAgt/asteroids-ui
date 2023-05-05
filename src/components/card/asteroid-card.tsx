@@ -71,7 +71,7 @@ const CardInfoTitle = styled.h3`
   text-transform: uppercase;
 `;
 
-const InfoLocation = styled.span`
+const InfoSub = styled.span`
   display: flex;
   font-size: 1.4rem;
   font-weight: 100;
@@ -146,7 +146,7 @@ function Card({ image, info }: Props) {
 Card.ImageContainer = CardContainerImg;
 Card.Info = CardInfoSection;
 Card.InfoTitle = CardInfoTitle;
-Card.InfoLocation = InfoLocation;
+Card.InfoSub = InfoSub;
 Card.InfoEventContainer = InfoEventContainer;
 
 export default Card;

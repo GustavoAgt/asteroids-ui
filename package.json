@@ -13,9 +13,7 @@
     "@emotion/react": "^11.10.8",
     "@emotion/styled": "^11.10.8",
     "@heroicons/react": "v1",
-    "@types/node": "18.16.3",
-    "@types/react": "18.2.1",
-    "@types/react-dom": "18.2.2",
+    "@reduxjs/toolkit": "^1.9.3",
     "env": "^0.0.2",
     "eslint": "8.39.0",
     "eslint-config-next": "13.3.4",
@@ -25,6 +23,15 @@
     "react": "18.2.0",
     "react-date-picker": "^10.0.3",
     "react-dom": "18.2.0",
+    "react-redux": "^8.0.5",
+    "redux-logger": "^3.0.6",
+    "swr": "^2.1.5",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "18.16.3",
+    "@types/react": "18.2.1",
+    "@types/react-dom": "18.2.2",
+    "@types/redux-logger": "^3.0.9"
   }
 }

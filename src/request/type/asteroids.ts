@@ -1,4 +1,4 @@
-type Neo = {
+export type Neo = {
   links: { self: string };
   id: string;
   neo_reference_id: string;
@@ -8,7 +8,8 @@ type Neo = {
   nasa_jpl_url: string;
   absolute_magnitude_h: number;
   is_potentially_hazardous_asteroid: boolean;
+  pic: string;
 };
 export type NeoResult = {
-    asteroids: Neo[];
+  asteroids: Neo[];
 };
