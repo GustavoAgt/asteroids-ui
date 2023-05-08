@@ -2,6 +2,8 @@ import { Neo } from "@ast/request/type/asteroids";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
+type NeoDate = { from: Date | null; until: Date | null };
+
 const initialState: {
   asteroids: Neo[];
 } = {
@@ -18,6 +20,6 @@ const neoSlice = createSlice({
   },
 });
 
-export const getNeosValue = (state: RootState) => state.neo;
-export const { setAsteroids } = neoSlice.actions;
 export default neoSlice.reducer;
+export const { setAsteroids } = neoSlice.actions;
+export const getNeosValue = (state: RootState) => state.neo;

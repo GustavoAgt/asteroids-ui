@@ -52,7 +52,11 @@ const ContainerBack = styled.div`
   top: 0;
   z-index: 0;
   height: 30vh;
+  width: 100%;
   transform: rotateY(180deg);
+
+  border: 1px solid #c8c8c8;
+  border-radius: 1rem;
 `;
 
 const CardContainerImg = styled.div`
@@ -69,15 +73,23 @@ const CardInfoTitle = styled.h3`
   font-weight: 300;
   padding: 1rem 0;
   text-transform: uppercase;
+  span:nth-of-type(2) {
+    margin-left: 1rem;
+  }
 `;
 
 const InfoSub = styled.span`
   display: flex;
+  align-items: center;
   font-size: 1.4rem;
   font-weight: 100;
   letter-spacing: 0.2rem;
   color: ${SUBTLE_TEXT_COLOR};
   text-transform: uppercase;
+
+  & > * {
+    margin-right: 0.35rem;
+  }
 `;
 
 const InfoEventContainer = styled.div`
@@ -89,13 +101,23 @@ const InfoEventContainer = styled.div`
   }
 `;
 
+const BackFlipInfoContent = styled.div`
+  width: 100%;
+  column-gap: 1rem;
+  row-gap: 1rem;
+  display: flex;
+  padding: 1rem;
+  justify-content: space-around;
+`;
+
 type Props = {
   image: ReactNode;
   info: ReactNode;
   check: ReactNode;
+  backFlipContent: ReactNode;
 };
 
-function Card({ image, info }: Props) {
+function Card({ image, info, backFlipContent }: Props) {
   const [flipToBack, setFlipToBack] = useState(false);
   let flipbackTimeout: string | number | NodeJS.Timeout | undefined = undefined;
   return (
@@ -132,12 +154,7 @@ function Card({ image, info }: Props) {
           {info}
         </ContainerFront>
 
-        <ContainerBack>
-          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Enim
-          delectus, adipisci cupiditate ipsam doloribus provident animi officia
-          facilis quasi nostrum vel, autem vitae dignissimos odit! Quos
-          molestiae dolorum voluptatum perferendis.
-        </ContainerBack>
+        <ContainerBack>{backFlipContent}</ContainerBack>
       </Container3D>
     </Container>
   );
@@ -148,5 +165,7 @@ Card.Info = CardInfoSection;
 Card.InfoTitle = CardInfoTitle;
 Card.InfoSub = InfoSub;
 Card.InfoEventContainer = InfoEventContainer;
+
+Card.BackFlipInfoContent = BackFlipInfoContent;
 
 export default Card;

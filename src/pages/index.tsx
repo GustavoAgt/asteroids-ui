@@ -1,75 +1,19 @@
-import { useRef } from "react";
 import Head from "next/head";
-import Image from "next/image";
-
 import { Roboto } from "next/font/google";
-
-import useSWR from "swr";
-import { useDispatch } from "react-redux";
-import CardSection from "@ast/components/card-section/card-section";
-import Card from "@ast/components/card/asteroid-card";
-import Header from "@ast/components/header/header";
-import HomeStyle from "@ast/styles/Home.module.css";
-import ButtonContainer from "@ast/components/button-container/button-container";
-import ContentSection from "@ast/components/content-section/content-section";
-import useToggle from "@ast/hooks/toggle";
-import Modal from "@ast/components/modal/modal";
-import FilterCard from "@ast/components/card-filter/card-filter";
-import Overlay from "@ast/components/overlay/overlay";
-import DatePick from "@ast/components/date-picker/datePicker";
-import {
-  PrimaryButton,
-  SecondaryButton,
-  SimpleButton,
-} from "@ast/components/buttons/buttons";
-import useKeyPress from "@ast/hooks/keyPress";
-import { generateRamdomNum, sortArrObj } from "@ast/utils/utils";
-import SortSection from "@ast/components/sort-section/sort-section";
-import { GET_NEOS } from "@ast/GraphQL/gql/neo.queries";
-import { fetcher } from "@ast/GraphQL/graphQLClient";
-import { setAsteroids } from "@ast/redux/slices/asteroids.slice";
-import { Neo, NeoResult } from "@ast/request/type/asteroids";
 import { useAppSelector } from "@ast/hooks/selector";
+import Header from "@ast/components/header/header";
+import Main from "@ast/components/main/main";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "500"] });
 
 export default function Home() {
-  const [showFilters, setShowFilters] = useToggle();
-  const ref = useRef<HTMLDivElement | null>(null);
-  const dispatch = useDispatch();
-  const { data, error } = useSWR(GET_NEOS, fetcher);
-  const { asteroids } = useAppSelector((state) => state.neo);
-
-  const selectDataSource = () => {
-    if (asteroids.length > 0) {
-      return asteroids;
-    }
-
-    return data?.asteroids;
-  };
-
-  useKeyPress("Escape", () => {
-    showFilters && setShowFilters();
-  });
-
-  const handleScrollToComponent = () => {
-    if (ref) {
-      ref.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const sortBy = (attrb: keyof Neo) => {
-    const result = sortArrObj(data?.asteroids, attrb);
-    if (result) {
-      dispatch(setAsteroids({ asteroids: result }));
-    }
-  };
+  const { showDateFilter } = useAppSelector((state) => state.filterDate);
 
   const GlobalStyle = (
     <style jsx global>
       {`
         body {
-          overflow-y: ${showFilters ? "hidden" : "none"};
+          overflow-y: ${showDateFilter ? "hidden" : "none"};
         }
       `}
     </style>
@@ -103,88 +47,7 @@ export default function Home() {
           </Header.MainText>
         }
       />
-
-      <main className={`${roboto.className} ${HomeStyle.main}`}>
-        {showFilters && (
-          <Modal>
-            {
-              <FilterCard className={`${roboto.className}`}>
-                <FilterCard.Title>Filter By:</FilterCard.Title>
-                <FilterCard.DateContainer>
-                  <FilterCard.SubText>FROM</FilterCard.SubText>
-                  <DatePick className={`${HomeStyle.dates}`} />
-                  <FilterCard.SubText>TO</FilterCard.SubText>
-
-                  <DatePick className={`${HomeStyle.dates}`} />
-                </FilterCard.DateContainer>
-
-                <SecondaryButton value="Search" onClick={() => {}} />
-              </FilterCard>
-            }
-          </Modal>
-        )}
-        <div ref={ref}></div>
-        {showFilters && (
-          <Overlay onClick={() => setShowFilters()} toggleState={showFilters} />
-        )}
-
-        <ContentSection>
-          <ButtonContainer>
-            <PrimaryButton
-              value="Filter"
-              width="90%"
-              onClick={() => {
-                setShowFilters();
-                handleScrollToComponent();
-              }}
-            />
-
-            <SortSection>
-              <span
-                className={roboto.className}
-                style={{ fontSize: "2.2rem", fontWeight: 300 }}
-              >
-                SORT BY:
-              </span>
-              <SimpleButton onClick={() => sortBy("name_limited")}>
-                {"Name"}
-              </SimpleButton>
-            </SortSection>
-          </ButtonContainer>
-
-          <CardSection>
-            {selectDataSource()?.map((neo) => (
-              <Card
-                key={neo.id}
-                check={false}
-                image={
-                  <Card.ImageContainer>
-                    <Image
-                      src={`/images/ast/${neo?.pic}.png`}
-                      alt={neo.name_limited}
-                      fill
-                      style={{ objectFit: "cover", borderRadius: "1rem" }}
-                    />
-                  </Card.ImageContainer>
-                }
-                info={
-                  <Card.Info>
-                    <Card.InfoTitle>{neo.name}</Card.InfoTitle>
-
-                    <Card.InfoEventContainer>
-                      <Card.InfoSub>
-                        desig: {neo.designation} - magnitud:{" "}
-                        {neo.absolute_magnitude_h} - D:{" "}
-                        {neo.is_potentially_hazardous_asteroid ? "YES" : "NO"}
-                      </Card.InfoSub>
-                    </Card.InfoEventContainer>
-                  </Card.Info>
-                }
-              />
-            ))}
-          </CardSection>
-        </ContentSection>
-      </main>
+      <Main />
     </>
   );
 }

@@ -7,7 +7,6 @@ const Container = styled.div`
   row-gap: 2rem;
 `;
 
-type Props = {};
 
 const ContentSection: FC<PropsWithChildren> = ({ children }) => {
   return <Container>{children}</Container>;

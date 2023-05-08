@@ -1,5 +1,5 @@
-import { FC, PropsWithChildren, ReactNode } from "react";
 import styled from "@emotion/styled";
+import { FC, PropsWithChildren } from "react";
 
 type Props = {
   value: any;
@@ -84,7 +84,7 @@ const SecondaryButton = styled(Button)<Props>`
   background-color: transparent;
   border: none;
 
-  &:hover {
+  &:hover:enabled {
     cursor: ${(props) => !props.disabled && "pointer"};
     background: linear-gradient(45deg, rgb(234, 217, 193), rgb(235, 130, 124));
     color: #fff;
@@ -105,6 +105,13 @@ const SecondaryButton = styled(Button)<Props>`
     &:hover {
       transform: ${(props) => !props.disabled && "scale(1)"};
     }
+  }
+
+  &:disabled {
+    cursor: auto;
+    background: linear-gradient(45deg, rgb(234, 217, 193), rgb(235, 130, 124));
+    color: #fff;
+    transform: none;
   }
 `;
 

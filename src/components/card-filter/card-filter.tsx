@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
-import { LegacyRef, ReactNode } from "react";
+import { ReactNode } from "react";
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 110%;
   left: 50%;
