@@ -193,7 +193,7 @@ const Main = () => {
                       key={key}
                       onClick={() => sortBy(key as keyof Neo)}
                     >
-                      {key as string}
+                      {(key as string).replaceAll("_", " ")}
                     </SimpleButton>
                   );
                 }
