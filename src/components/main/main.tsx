@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import useSWR from "swr";
 
-import { GET_NEOS, NEOS_DATE } from "@ast/GraphQL/gql/neo.queries";
+import { NEOS_DATE } from "@ast/GraphQL/gql/neo.queries";
 import { fetcher } from "@ast/GraphQL/graphQLClient";
 
 import ButtonContainer from "@ast/components/button-container/button-container";
@@ -44,18 +44,6 @@ const Main = () => {
 
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const { isLoading } = useSWR(GET_NEOS, fetcher, {
-    onSuccess: (data) => {
-      dispatch(setAsteroids({ asteroids: data.asteroids }));
-    },
-
-    onError: (error) => {
-      console.log(error);
-    },
-
-    revalidateOnFocus: false,
-  });
-
   useSWR(
     [shouldFetch ? NEOS_DATE : "", dates.from, dates.until],
     ([query, from, until]) => fetcher(query, from, until),
@@ -94,9 +82,6 @@ const Main = () => {
       dispatch(setFilterState({ showDateFilter: !showDateFilter }));
   });
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
   return (
     <main className={`${roboto.className} ${HomeStyle.main}`}>
       {showDateFilter && (

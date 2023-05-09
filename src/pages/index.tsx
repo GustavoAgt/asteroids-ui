@@ -1,14 +1,31 @@
 import Head from "next/head";
+import useSWR from "swr";
 import { Roboto } from "next/font/google";
 import { useAppSelector } from "@ast/hooks/selector";
 import Header from "@ast/components/header/header";
 import Main from "@ast/components/main/main";
 
+import { GET_NEOS } from "@ast/GraphQL/gql/neo.queries";
+import { fetcher } from "@ast/GraphQL/graphQLClient";
+import { useDispatch } from "react-redux";
+import { setAsteroids } from "@ast/redux/slices/asteroids.slice";
 const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "500"] });
 
 export default function Home() {
   const { showDateFilter } = useAppSelector((state) => state.filterDate);
+  const dispatch = useDispatch();
 
+  const { isLoading } = useSWR(GET_NEOS, fetcher, {
+    onSuccess: (data) => {
+      dispatch(setAsteroids({ asteroids: data.asteroids }));
+    },
+
+    onError: (error) => {
+      console.log(error);
+    },
+
+    revalidateOnFocus: false,
+  });
   const GlobalStyle = (
     <style jsx global>
       {`
@@ -19,6 +36,9 @@ export default function Home() {
     </style>
   );
 
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
   return (
     <>
       <Head>

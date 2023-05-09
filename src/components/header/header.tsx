@@ -22,7 +22,6 @@ const HeaderStyled = styled(({ className, children }: Props) => (
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center left;
-  /* Create the parallax scrolling effect */
   background-attachment: fixed;
   position: relative;
 `;
