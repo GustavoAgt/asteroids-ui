@@ -48,7 +48,7 @@ const PrimaryButton = styled(Button)<Props>`
   margin-top: ${(props) => props.marginTop};
   margin-bottom: ${(props) => props.marginBottom};
   color: #ffffff;
-  background: linear-gradient(45deg, rgb(234, 217, 193), rgb(235, 130, 124));
+  background: linear-gradient(45deg, rgb(234, 217, 193), hsl(3.24324324324324, 73.50993377483441%, 70.3921568627451%));
   border: none;
 
   &:focus-visible {

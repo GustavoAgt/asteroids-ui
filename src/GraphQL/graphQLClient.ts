@@ -36,4 +36,13 @@ const fetcher = async (
   return { asteroids: [...dataTranformed] };
 };
 
-export { graphlQLClient, fetcher };
+const saveBookmarkedNeo = async (query: RequestDocument, id: string) => {
+  console.log(id, query, "<>");
+  try {
+    return await graphlQLClient.request<Neo>(query, {
+      id,
+    });
+  } catch (error) {}
+};
+
+export { graphlQLClient, fetcher, saveBookmarkedNeo };

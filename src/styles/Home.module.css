@@ -1,6 +1,7 @@
 .main {
   position: relative;
   overflow-x: none;
+  margin-bottom: 2rem;
 }
 
 .dates {

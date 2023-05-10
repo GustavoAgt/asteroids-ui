@@ -3,12 +3,13 @@ import useSWR from "swr";
 import { Roboto } from "next/font/google";
 import { useAppSelector } from "@ast/hooks/selector";
 import Header from "@ast/components/header/header";
-import Main from "@ast/components/main/main";
 
 import { GET_NEOS } from "@ast/GraphQL/gql/neo.queries";
 import { fetcher } from "@ast/GraphQL/graphQLClient";
 import { useDispatch } from "react-redux";
 import { setAsteroids } from "@ast/redux/slices/asteroids.slice";
+import Main from "@ast/components/main/main";
+import Loader from "@ast/components/loader/loader";
 const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "500"] });
 
 export default function Home() {
@@ -37,8 +38,20 @@ export default function Home() {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <Loader />
+      </div>
+    );
   }
+
   return (
     <>
       <Head>

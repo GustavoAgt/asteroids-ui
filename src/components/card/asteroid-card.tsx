@@ -87,15 +87,13 @@ const InfoSub = styled.span`
   color: ${SUBTLE_TEXT_COLOR};
   text-transform: uppercase;
 
-  & > * {
-    margin-right: 0.35rem;
+  & > *:not(:last-child) {
+    margin-right: 0.75rem;
   }
 `;
 
 const InfoEventContainer = styled.div`
   display: flex;
-  flex-direction: column;
-
   & > * {
     padding: 0.15rem 0;
   }

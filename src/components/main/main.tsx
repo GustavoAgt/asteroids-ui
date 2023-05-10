@@ -3,9 +3,13 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import useSWR from "swr";
+import { Tooltip } from "react-tooltip";
 
-import { NEOS_DATE } from "@ast/GraphQL/gql/neo.queries";
-import { fetcher } from "@ast/GraphQL/graphQLClient";
+//@ts-ignore
+import { BookmarkIcon } from "@heroicons/react/outline";
+
+import { NEOS_DATE, SAVE_BOOKMARKED_NEO } from "@ast/GraphQL/gql/neo.queries";
+import { fetcher, saveBookmarkedNeo } from "@ast/GraphQL/graphQLClient";
 
 import ButtonContainer from "@ast/components/button-container/button-container";
 import {
@@ -28,6 +32,7 @@ import { setFilterState } from "@ast/redux/slices/filter.slice";
 import { Neo } from "@ast/request/type/asteroids";
 import HomeStyle from "@ast/styles/Home.module.css";
 import { diffDates, sortNeosBy } from "@ast/utils/utils";
+import BookmarkBtn from "../btn-with-icon/btn-with-icon";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["100", "300", "500"] });
 
@@ -208,15 +213,41 @@ const Main = () => {
 
                   <Card.InfoEventContainer>
                     <Card.InfoSub>
-                      <span>desig:</span>
+                      <span
+                        data-tooltip-id="asteroids-tooltip"
+                        data-tooltip-content="Designation"
+                      >
+                        desig:
+                      </span>
                       <Ship bgColor="#ece7df">{neo.designation}</Ship>
-                      <span>magnitud:</span>
+                      <span
+                        data-tooltip-id="asteroids-tooltip"
+                        data-tooltip-content="Absolute Magnitude H"
+                      >
+                        magnitude:
+                      </span>
                       <Ship bgColor="#ece7df">{neo.absolute_magnitude_h}</Ship>
-                      <span> D:</span>
+                      <span
+                        data-tooltip-id="asteroids-tooltip"
+                        data-tooltip-content="Is potentially hazardous asteroid"
+                      >
+                        Haz:
+                      </span>
                       <Ship bgColor="#ece7df">
                         {neo.is_potentially_hazardous_asteroid ? "YES" : "NO"}
                       </Ship>
                     </Card.InfoSub>
+
+                    <div style={{ marginLeft: "auto" }}>
+                      <BookmarkBtn
+                        icon={BookmarkIcon}
+                        width="2.2rem"
+                        assentColor="#eb827c"
+                        onHandleClick={() =>
+                          saveBookmarkedNeo(SAVE_BOOKMARKED_NEO, String(neo.id))
+                        }
+                      />
+                    </div>
                   </Card.InfoEventContainer>
                 </Card.Info>
               }
@@ -300,6 +331,8 @@ const Main = () => {
               }
             />
           ))}
+
+          <Tooltip id="asteroids-tooltip" />
         </CardSection>
       </ContentSection>
     </main>

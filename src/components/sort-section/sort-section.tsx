@@ -5,8 +5,7 @@ const SortSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
+  margin: 0 auto;
 
   & > button {
     margin-bottom: 1.5rem;
@@ -17,6 +16,8 @@ const SortSectionContainer = styled.div`
 
   @media (min-width: 1024px) {
     flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: auto;
 
     & > button {
       margin-right: 1.5rem;
@@ -24,9 +25,6 @@ const SortSectionContainer = styled.div`
     }
     & > span {
       margin: 0 7rem 0 7rem;
-    }
-
-    @media (-width: 300px) {
     }
   }
 `;
